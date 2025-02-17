@@ -33,6 +33,7 @@ def py_post_to_cpp_post():
         .load() \
         .select(
             col("id"),
+            col("uniqueId"),
             col("title"),
             col("author"),
             col("date").alias("createdAt"),

@@ -9,6 +9,7 @@ from datetime import datetime
 class Post:
     def __init__(self, 
                  id: Optional[int], 
+                 uniqueId: str, 
                  title: str, 
                  content: str, 
                  createdAt: datetime, 
@@ -20,6 +21,7 @@ class Post:
                  isPublished: bool, 
                  views: int):
         self.id = id
+        self.uniqueId = uniqueId
         self.title = title
         self.content = content
         self.createdAt = createdAt
@@ -34,6 +36,7 @@ class Post:
 class JPost:
     def __init__(self, 
                  id: Optional[int], 
+                 uniqueId: str, 
                  title: str, 
                  content: str, 
                  createdAt: datetime, 
@@ -45,6 +48,7 @@ class JPost:
                  isPublished: bool, 
                  views: int):
         self.id = id
+        self.uniqueId = uniqueId
         self.title = title
         self.content = content
         self.createdAt = createdAt
@@ -71,6 +75,7 @@ class PostMapper:
         # Define schema for Post table
         post_schema = StructType([
             StructField("id", IntegerType(), nullable=True),
+            StructField("uniqueId", StringType(), nullable=False),
             StructField("title", StringType(), nullable=False),
             StructField("content", StringType(), nullable=False),
             StructField("createdAt", TimestampType(), nullable=False),
@@ -99,6 +104,7 @@ class PostMapper:
             id= row.id if self.newer is False else None
             return JPost(
                 id=id,
+                uniqueId=row.uniqueId,
                 title=row.title,
                 content=row.content,
                 createdAt=row.createdAt,
@@ -139,6 +145,7 @@ class PostMapper:
         # Define schema for JPost table
         jpost_schema = StructType([
             StructField("id", IntegerType(), nullable=True),
+            StructField("uniqueId", StringType(), nullable=False),
             StructField("title", StringType(), nullable=False),
             StructField("content", StringType(), nullable=False),
             StructField("createdAt", TimestampType(), nullable=False),
@@ -166,6 +173,7 @@ class PostMapper:
         def map_row_to_post(row):
             id= row.id if self.newer is False else None
             # Handle null values if necessary
+            uniqueId = row.uniqueId
             title = row.title if row.title is not None else "Unknown"
             content = row.content if row.content is not None else "No content"
             createdAt = row.createdAt if row.createdAt is not None else datetime.now()
@@ -174,6 +182,7 @@ class PostMapper:
             views = row.views if row.views is not None else 0
             return Post(
                 id=id,
+                uniqueId=uniqueId,
                 title=title,
                 content=content,
                 createdAt=createdAt,
