@@ -29,7 +29,7 @@ def py_post_to_cpp_post():
         .format("jdbc") \
         .option("url", url) \
         .option("driver", "com.mysql.cj.jdbc.Driver") \
-        .option("dbtable", "Post") \
+        .option("dbtable", "Post_stage") \
         .load() \
         .select(
             col("id"),
@@ -54,7 +54,7 @@ def py_post_to_cpp_post():
         .filter(length(col("content")) <= 10000)  
 
     # Write transformed data to MySQL 'JPost' table
-    with open("../aws-resources/localhost-mac-java.txt", "r") as file:
+    with open("../aws-resources/thenameofyourbrand.txt", "r") as file:
         java_url = file.read().strip()
 
     jpost_df.write \
